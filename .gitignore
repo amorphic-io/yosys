@@ -1,3 +1,11 @@
+#Misc
+/.direnv
+/.envrc
+
+#Bazel
+bazel-*
+MODULE.bazel.lock
+
 *.o
 *.d
 *.dwo
@@ -55,3 +63,4 @@ __pycache__
 /boost
 /ffi
 /*.whl
+
