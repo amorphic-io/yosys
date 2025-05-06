@@ -16,7 +16,13 @@ bazel_dep(name = "abc", version = "0.0.0-20250408-yosyshq.bcr.1")
 bazel_dep(name = "libffi", version = "3.4.7.bcr.3")
 bazel_dep(name = "tcl", version = "8.6.10")
 bazel_dep(name = "json11", version = "1.0.1-0.20200325232727-2df9473fb360")
+bazel_dep(name = "cxxopts", version = "3.2.0")
 
+git_override(
+    module_name = "cxxopts",
+    commit = "0fc4bdab71ea25e3623e2b609b4e5b2bd20bb938",
+    remote = "https://github.com/amorphic-io/cxxopts.git",
+)
 git_override(
     module_name = "tcl",
     commit = "4ca5c6850eae1a24b611a76a68eff0b31c840823",

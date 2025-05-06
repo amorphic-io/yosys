@@ -308,10 +308,46 @@ filegroup(
   ],
 )
 
+# So we can use the internal bzl dep without
+# patching the repo.
+# We are generating a double header to avoid recursive includes.
+genrule(
+    name = "_cxxopts_stub_gen",
+    outs = ["_cxxopts_stub.hpp"],
+    cmd = "\n".join([
+        "cat <<'EOF' >$@\n",
+        "#include \"cxxopts.hpp\"",
+        "EOF"
+    ]),
+)
+
+cc_library(
+    name = "cxxopts_stub",
+    hdrs = [
+        "_cxxopts_stub.hpp",
+    ],
+    deps = [
+        "@cxxopts",
+    ],
+)
+
+genrule(
+    name = "cxxopts_header_gen",
+    outs = ["libs/cxxopts/include/cxxopts.hpp"],
+    cmd = "\n".join([
+        "cat <<'EOF' >$@\n",
+        "#include \"_cxxopts_stub.hpp\"",
+        "EOF"
+    ]),
+)
+
 cc_library(
     name = "cxxopts",
     hdrs = [
         "libs/cxxopts/include/cxxopts.hpp",
+    ],
+    deps = [
+        ":cxxopts_stub",
     ]
 )
 
