@@ -205,8 +205,8 @@ cc_library(
     deps = [
         ":bigint",
         ":ezsat",
-        ":json11",
         ":minisat",
+        ":json11",
         ":sha1",
         ":subcircuit",
         ":fst",
@@ -247,6 +247,49 @@ move_files(
   destination = "techlibs",
 )
 
+# So we can use the internal bzl dep without
+# patching the repo.
+# We are generating a double header to avoid recursive includes.
+genrule(
+    name = "_json11_stub_gen",
+    outs = ["_json11_stub.hpp"],
+    cmd = "\n".join([
+        "cat <<'EOF' >$@\n",
+        "#include \"json11.hpp\"",
+        "EOF"
+    ]),
+)
+
+cc_library(
+    name = "json11_stub",
+    hdrs = [
+        "_json11_stub.hpp",
+    ],
+    deps = [
+        "@json11",
+    ],
+)
+
+genrule(
+    name = "json11_header_gen",
+    outs = ["libs/json11/json11.hpp"],
+    cmd = "\n".join([
+        "cat <<'EOF' >$@\n",
+        "#include \"_json11_stub.hpp\"",
+        "EOF"
+    ]),
+)
+
+cc_library(
+    name = "json11",
+    hdrs = [
+        "libs/json11/json11.hpp",
+    ],
+    deps = [
+        ":json11_stub",
+    ]
+)
+
 filegroup(
   name = "share_files",
   srcs = glob(
@@ -269,16 +312,6 @@ cc_library(
     name = "cxxopts",
     hdrs = [
         "libs/cxxopts/include/cxxopts.hpp",
-    ]
-)
-
-cc_library(
-    name = "json11",
-    srcs = [
-        "libs/json11/json11.cpp",
-    ],
-    hdrs = [
-        "libs/json11/json11.hpp",
     ]
 )
 

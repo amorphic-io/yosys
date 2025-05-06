@@ -15,6 +15,7 @@ bazel_dep(name = "rules_python", version = "1.4.0")
 bazel_dep(name = "abc", version = "0.0.0-20250408-yosyshq.bcr.1")
 bazel_dep(name = "libffi", version = "3.4.7.bcr.3")
 bazel_dep(name = "tcl", version = "8.6.10")
+bazel_dep(name = "json11", version = "1.0.1-0.20200325232727-2df9473fb360")
 
 git_override(
     module_name = "tcl",
