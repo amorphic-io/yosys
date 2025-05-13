@@ -165,7 +165,7 @@ YOSYS_COPTS = [
     "-Wno-unused-variable",
     "-Wno-unknown-warning-option",   # GCC vs Clang
     "-std=c++17",                    # new
-     "-DYOSYS_SRC='\"./\"'",
+    "-DYOSYS_SRC='\"./\"'",
 ]
 
 cc_library(
@@ -247,14 +247,10 @@ cc_library(
 )
 
 cc_binary(
-    name = "yosys",
+    name = "yosys-bin",
     srcs = ["kernel/driver.cc"],
     copts = YOSYS_COPTS,
     features = ["-use_header_modules"],
-    data = [
-        ":share_files",
-        "@abc//:abc_bin",
-    ],
     deps = [
         ":kernel",
         ":version",
@@ -262,6 +258,21 @@ cc_binary(
         "@readline//:readline",
         "@zlib//:zlib",
     ],
+    visibility = ["//visibility:public"],
+)
+
+# Wrapper that inserts required env vars such as
+# YOSYS_DATDIR.
+sh_binary(
+    name = "yosys",
+    srcs = ["yosys.sh"],
+    data = [
+        ":yosys-bin",
+        ":share_files",
+        "@abc//:abc_bin",
+    ],
+    deps = ["@bazel_tools//tools/bash/runfiles"],
+    output_licenses = ["unencumbered"],
     visibility = ["//visibility:public"],
 )
 
@@ -320,7 +331,6 @@ filegroup(
   name = "share_files",
   srcs = glob(
     include = [
-      "techlibs/common/*.v",
       "techlibs/**/*.v",
       "techlibs/**/*.vh",
       "techlibs/**/*.lib",
