@@ -236,6 +236,7 @@ cc_library(
         ":sha1",
         ":subcircuit",
         ":fst",
+        ":cxxopts",
         "@zlib//:zlib",                 # new – direct zlib refs
         "@readline//:readline",
         "@abc//:abc",
