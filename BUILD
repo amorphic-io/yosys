@@ -325,7 +325,8 @@ cc_library(
     ],
     deps = [
         ":json11_stub",
-    ]
+    ],
+    includes = ["libs/json11"],
 )
 
 filegroup(
