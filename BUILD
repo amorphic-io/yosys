@@ -383,6 +383,7 @@ cc_library(
     hdrs = [
         "libs/cxxopts/include/cxxopts.hpp",
     ],
+    includes = ["libs/cxxopts/include"],
     deps = [
         ":cxxopts_stub",
     ]
