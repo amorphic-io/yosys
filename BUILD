@@ -236,6 +236,7 @@ cc_library(
         ":sha1",
         ":subcircuit",
         ":fst",
+        ":cxxopts",
         "@zlib//:zlib",                 # new – direct zlib refs
         "@readline//:readline",
         "@abc//:abc",
@@ -324,7 +325,8 @@ cc_library(
     ],
     deps = [
         ":json11_stub",
-    ]
+    ],
+    includes = ["libs/json11"],
 )
 
 filegroup(
@@ -382,6 +384,7 @@ cc_library(
     hdrs = [
         "libs/cxxopts/include/cxxopts.hpp",
     ],
+    includes = ["libs/cxxopts/include"],
     deps = [
         ":cxxopts_stub",
     ]
